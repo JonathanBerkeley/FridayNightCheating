@@ -1,8 +1,8 @@
 # Friday Night Cheating
 Python script to beat the game friday night funkin' on hardest difficulty
 
-Game link: https://ninja-muffin24.itch.io/funkin
-Video of bot: https://streamable.com/kwn4e3
+Game link: https://ninja-muffin24.itch.io/funkin      
+Video of bot: https://streamable.com/kwn4e3      
 
 Beware this can spam keyboard input at whatever window is focused if something blocks the game window.
 Espcially when a round ends, or changing resolution.
