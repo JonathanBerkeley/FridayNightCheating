@@ -2,13 +2,13 @@ from mouseinfo import getPixel
 import mouse
 import keyboard
 import time
-import sys
 
 class track:
-    standard_click = 0.05
-    standard_gap = 0.01
+    standard_click = 0.03
+    standard_gap = 0.02
     iv = None
 
+    hotkey = "alt+d"
     watch_position = None
     keep_going = True
 
@@ -19,6 +19,7 @@ class track:
 trk = track()
 
 def main():
+
     keyboard.add_hotkey('alt+n', quit)
     begin()
     
@@ -26,8 +27,8 @@ def main():
         time.sleep(1)
 
 def begin():
-    print("Put mouse over the down arrow and press alt+d")
-    keyboard.add_hotkey('alt+d', clicked)
+    print("Put mouse over the right arrow and press", trk.hotkey)
+    keyboard.add_hotkey(trk.hotkey, clicked)
 
 def test():
     print(mouse.get_position())
@@ -46,18 +47,31 @@ def clicked():
 
 
 def activity(key):
-    keyboard.add_hotkey('alt+n', quit)
     while (trk.keep_going):
         current_value = getPixel(trk.watch_position[0], trk.watch_position[1])
-        if (current_value != trk.iv):
+
+        #Check for death or main menu colours
+        if (current_value == (249, 207, 81) or current_value == (0, 0, 0) or current_value == (146, 113, 253)):
+            #Verify it wasn't just a stray pixel
+            print("Sleeping due to stop pixel found")
+            time.sleep(0.1)
+            current_value = getPixel(trk.watch_position[0], trk.watch_position[1])
+            if (current_value == (249, 207, 81) or current_value == (0, 0, 0) or current_value == (146, 113, 253)):
+                print("Stopping due to stop pixel found twice")
+                break
+
+        elif (current_value != trk.iv):
             keyboard.press(key)
             time.sleep(trk.standard_click)
             keyboard.release(key)
             print("[", time.ctime()[11:19], "] - Simulated |", key, "| Detected change", current_value)
             time.sleep(trk.standard_gap)
-        
+
     if (not trk.keep_going):
         raise KeyboardInterrupt
+    else:
+        keyboard.remove_hotkey(trk.hotkey)
+        begin()
 
 
 def quit():
