@@ -13,7 +13,6 @@ class FridayNightCheating:
     def __init__(self, hotkey, key):
         self.hotkey = hotkey
         self.key = key
-        pass
 
 
     def handle_clicked(self):
@@ -36,22 +35,22 @@ class FridayNightCheating:
     def main_activity(self):
         pixel_changed_count = 0
 
-        while (self.keep_going):
+        while self.keep_going:
             current_value = get_pixel(self.watch_position[0], self.watch_position[1])
 
             #Check for death or main menu colours
-            if (current_value == (249, 207, 81) or current_value == (0, 0, 0) or current_value == (146, 113, 253)):
+            if current_value == (249, 207, 81) or current_value == (0, 0, 0) or current_value == (146, 113, 253):
                 #Verify it wasn't just a stray pixel
                 print("Sleeping due to stop pixel found")
                 time.sleep(0.1)
                 current_value = get_pixel(self.watch_position[0], self.watch_position[1])
-                if (current_value == (249, 207, 81) or current_value == (0, 0, 0) or current_value == (146, 113, 253)):
+                if current_value == (249, 207, 81) or current_value == (0, 0, 0) or current_value == (146, 113, 253):
                     print("Stopping due to stop pixel found twice")
                     break
 
-            elif (current_value != self.iv):
+            elif current_value != self.iv:
                 pixel_changed_count += 1
-                if (pixel_changed_count > 7):
+                if pixel_changed_count > 7:
                     print("Stopping due to constant pixel change")
                     break
 
@@ -64,7 +63,7 @@ class FridayNightCheating:
             else:
                 pixel_changed_count = 0
 
-        if (not self.keep_going):
+        if not self.keep_going:
             raise KeyboardInterrupt
         else:
             keyboard.remove_hotkey(self.hotkey)

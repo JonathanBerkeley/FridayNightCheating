@@ -8,7 +8,7 @@ def main():
     add_hotkey('alt+n', fnc.quit)
     fnc.begin()
     
-    while (fnc.keep_going):
+    while fnc.keep_going:
         sleep(1)
 
 if __name__ == "__main__":
